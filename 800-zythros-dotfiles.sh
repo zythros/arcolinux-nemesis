@@ -109,6 +109,11 @@ fi
 
 # Host-only scripts — skip when running inside a VM
 if ! systemd-detect-virt -q --vm; then
+    # Install NVIDIA open DKMS driver stack (must run before 880)
+    if [ -f "$installed_dir/875-nvidia-driver-install.sh" ]; then
+        bash "$installed_dir/875-nvidia-driver-install.sh"
+    fi
+
     # Configure NVIDIA Xorg driver + kernel modeset param (fixes SDDM not reaching login screen)
     if [ -f "$installed_dir/880-nvidia-xorg-setup.sh" ]; then
         bash "$installed_dir/880-nvidia-xorg-setup.sh"
